@@ -29,7 +29,7 @@
 body{margin:0;background:var(--cardtint);color:var(--ink);font:14px/1.55 "Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 header{background:var(--navy);color:#fff;padding:18px 26px;border-bottom:3px solid var(--cyan)}
 header h1{margin:0;font-size:20px;letter-spacing:.5px;font-weight:700}
-header p{margin:5px 0 0;opacity:.9;font-size:12.5px}
+header p{margin:5px 0 0;opacity:.9;font-size:12.5px;white-space:pre-line;line-height:1.75}
 .wrap{max-width:1600px;margin:0 auto;padding:22px clamp(24px,5vw,88px) 72px}
 .grid{display:grid;grid-template-columns:minmax(340px,38%) minmax(0,1fr);gap:20px;align-items:start}
 .card{background:#fff;border:1px solid var(--hair);border-radius:8px;min-width:0}
@@ -117,13 +117,18 @@ tbody td.note-c{background:var(--orange-l);white-space:normal;text-align:left;fo
 .foot{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--sub);flex-wrap:wrap;gap:8px}
 .legend{display:flex;gap:14px;flex-wrap:wrap}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:-1px}
-@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.tbl-note{padding:10px 18px 0;font-size:12px;color:var(--sub);line-height:1.6}
+.tbl-note b{color:var(--cyan)}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}header p{font-size:11.5px;line-height:1.65}.tbl-note{padding:8px 14px 0;font-size:11.5px}}
 </style>
 </head>
 <body data-page-node-id="GRvYCij4dBAAvqARax1DiR">
 <header data-page-node-id="ck5XXM061BZIZrL4vQ2Lrs">
   <h1 data-page-node-id="Bw9DotNZY3PW8qgWw6zN9y"><!--pnid:42qt02gowZ4MbsnbZbF71U-->检验立项指南物价查询</h1>
-  <p data-page-node-id="ep3GnbrXBbxaKOL2qPlcvs" id="hdrDesc"><!--pnid:djcNIog2P01wK3QW9LlVEM-->数据更新 2026-11-24 · 覆盖 12 个省份（辽宁、安徽、江西、浙江、青海、北京、黑龙江、河北、内蒙古、新疆、吉林、云南）· 搜索关键词 → 勾选项目（可多次搜索累积） → 表格转置：省份为行、项目为列，查看各省物价对比 · 分「主项 / 加收·扩展子项」两类</p>
+  <p data-page-node-id="ep3GnbrXBbxaKOL2qPlcvs" id="hdrDesc"><!--pnid:djcNIog2P01wK3QW9LlVEM-->数据更新 2026-11-24 · 覆盖 12 个省份（辽宁、安徽、江西、浙江、青海、北京、黑龙江、河北、内蒙古、新疆、吉林、云南）
+搜索关键词 → 勾选项目（可多次搜索累积）
+表格转置：省份为行、项目为列，查看各省物价对比
+分「主项 / 加收·扩展子项」两类</p>
 </header>
 <div data-page-node-id="OwtGoABUqxUVMNOFJkx5nb" class="wrap">
 <div data-page-node-id="243fUqWzOKLC4DVsjoP4oO" class="grid">
@@ -169,6 +174,7 @@ tbody td.note-c{background:var(--orange-l);white-space:normal;text-align:left;fo
       </div>
       <span data-page-node-id="6N2Ac1WKk6uktRWgwQAOpE" class="pz-hint" id="provHint"><!--pnid:0GIEYzKFDLTXsLEO8M3uGm-->已选 12 / 12 个省份</span>
     </div>
+    <div class="tbl-note">想核对计价规则？点项目名下方的<b>「说明」</b>，即可按省展开该项目的计价说明原文。</div>
     <div data-page-node-id="9RmpTR3nFoJcehHacPw7aS" class="table-wrap" id="tableWrap">
       <div data-page-node-id="riU5bUfdNNkW4j68FR5erw" class="tbl-empty"><div data-page-node-id="jHKfZXxCKAHSAI88NUdEvW" class="big"><!--pnid:2FulHjLI0PHRvY95UZhjzH-->▦</div><!--pnid:VXTQKMnr9jOavJUlQN03IK-->勾选项目后，各省物价将在此处对比展示。</div>
     </div>
