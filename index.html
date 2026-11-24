@@ -30,7 +30,7 @@ body{margin:0;background:var(--cardtint);color:var(--ink);font:14px/1.55 "Micros
 header{background:var(--navy);color:#fff;padding:18px 26px;border-bottom:3px solid var(--cyan)}
 header h1{margin:0;font-size:20px;letter-spacing:.5px;font-weight:700}
 header p{margin:5px 0 0;opacity:.9;font-size:12.5px}
-.wrap{max-width:1600px;margin:0 auto;padding:20px 24px 60px}
+.wrap{max-width:1600px;margin:0 auto;padding:22px clamp(24px,5vw,88px) 72px}
 .grid{display:grid;grid-template-columns:minmax(340px,38%) 1fr;gap:20px;align-items:start}
 .card{background:#fff;border:1px solid var(--hair);border-radius:8px}
 .card-h{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -190,6 +190,9 @@ const PROVS = DATA.provs;
 const ROWS = DATA.rows;
 const bySeq = {};
 ROWS.forEach(r => bySeq[r.seq] = r);
+// 主项 → 其全部加收/扩展子项索引（勾选主项时连带勾选子项）
+const CHILDREN = {};
+ROWS.forEach(r => { if(r.seq !== r.parent){ (CHILDREN[r.parent] = CHILDREN[r.parent] || []).push(r.seq); } });
 // 动态填入项目总数（主项/子项）
 (function(){
   const mains = ROWS.filter(r=>!r.seq.includes('-')).length;
@@ -256,6 +259,19 @@ function syncProv(){
 const $ = id => document.getElementById(id);
 const resultsEl = $('results');
 
+// 主项与其子项联动：勾选主项 → 连带勾选全部子项；取消主项 → 连带取消
+function selectWithChildren(seq){ selected.add(seq); (CHILDREN[seq]||[]).forEach(c=>selected.add(c)); }
+function deselectWithChildren(seq){ selected.delete(seq); (CHILDREN[seq]||[]).forEach(c=>selected.delete(c)); }
+// 只同步左侧列表的勾选状态，不重绘（避免翻页位置丢失）
+function syncResultChecks(){
+  resultsEl.querySelectorAll('.item').forEach(el=>{
+    const on = selected.has(el.dataset.seq);
+    const cb = el.querySelector('input');
+    if(cb) cb.checked = on;
+    el.classList.toggle('checked', on);
+  });
+}
+
 // 两类归并：带 '-' 序号的是加收/扩展子项，其余为主项
 function kindOf(r){ return r.seq.includes('-') ? '加收/扩展子项' : '主项'; }
 
@@ -298,8 +314,8 @@ function renderResults(){
     const cb = el.querySelector('input');
     cb.addEventListener('change', ()=>{
       const seq = el.dataset.seq;
-      if(cb.checked){ selected.add(seq); el.classList.add('checked'); }
-      else { selected.delete(seq); el.classList.remove('checked'); }
+      if(cb.checked) selectWithChildren(seq); else deselectWithChildren(seq);
+      syncResultChecks();
       saveSel(); renderSelected(); renderTable();
     });
   });
@@ -317,7 +333,7 @@ function renderSelected(){
     return '<span class="chip"><span title="'+esc(r.name)+'">'+esc(s)+' '+esc(r.name.replace(/^└\s*/,''))+'</span><i data-seq="'+s+'">×</i></span>';
   }).join('');
   chips.querySelectorAll('i').forEach(i=>i.addEventListener('click',()=>{
-    selected.delete(i.dataset.seq); saveSel(); renderResults(); renderSelected(); renderTable();
+    deselectWithChildren(i.dataset.seq); saveSel(); renderResults(); renderSelected(); renderTable();
   }));
 }
 function cmpSeq(a,b){
@@ -397,8 +413,8 @@ function exportCsv(){
 // 事件绑定
 $('q').addEventListener('input', renderResults);
 $('cat').addEventListener('change', renderResults);
-$('selAll').addEventListener('click', ()=>{ filteredRows().forEach(r=>selected.add(r.seq)); saveSel(); renderResults(); renderSelected(); renderTable(); });
-$('unselAll').addEventListener('click', ()=>{ filteredRows().forEach(r=>selected.delete(r.seq)); saveSel(); renderResults(); renderSelected(); renderTable(); });
+$('selAll').addEventListener('click', ()=>{ filteredRows().forEach(r=>selectWithChildren(r.seq)); saveSel(); renderResults(); renderSelected(); renderTable(); });
+$('unselAll').addEventListener('click', ()=>{ filteredRows().forEach(r=>deselectWithChildren(r.seq)); saveSel(); renderResults(); renderSelected(); renderTable(); });
 $('clearSel').addEventListener('click', ()=>{ if(!selected.size)return; if(confirm('确定清空全部勾选？')){ selected.clear(); saveSel(); renderResults(); renderSelected(); renderTable(); } });
 $('exportCsv').addEventListener('click', exportCsv);
 
