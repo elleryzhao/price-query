@@ -125,10 +125,9 @@ tbody td.note-c{background:var(--orange-l);white-space:normal;text-align:left;fo
 <body data-page-node-id="GRvYCij4dBAAvqARax1DiR">
 <header data-page-node-id="ck5XXM061BZIZrL4vQ2Lrs">
   <h1 data-page-node-id="Bw9DotNZY3PW8qgWw6zN9y"><!--pnid:42qt02gowZ4MbsnbZbF71U-->检验立项指南物价查询</h1>
-  <p data-page-node-id="ep3GnbrXBbxaKOL2qPlcvs" id="hdrDesc"><!--pnid:djcNIog2P01wK3QW9LlVEM-->数据更新 2026-11-24 · 覆盖 12 个省份（辽宁、安徽、江西、浙江、青海、北京、黑龙江、河北、内蒙古、新疆、吉林、云南）
-搜索关键词 → 勾选项目（可多次搜索累积）
-表格转置：省份为行、项目为列，查看各省物价对比
-分「主项 / 加收·扩展子项」两类</p>
+  <p data-page-node-id="ep3GnbrXBbxaKOL2qPlcvs" id="hdrDesc"><!--pnid:djcNIog2P01wK3QW9LlVEM-->数据更新 2026-11-24
+覆盖 12 个省份（辽宁、安徽、江西、浙江、青海、北京、黑龙江、河北、内蒙古、新疆、吉林、云南）
+搜索关键词 → 勾选项目（可多次搜索累积）</p>
 </header>
 <div data-page-node-id="OwtGoABUqxUVMNOFJkx5nb" class="wrap">
 <div data-page-node-id="243fUqWzOKLC4DVsjoP4oO" class="grid">
@@ -174,7 +173,7 @@ tbody td.note-c{background:var(--orange-l);white-space:normal;text-align:left;fo
       </div>
       <span data-page-node-id="6N2Ac1WKk6uktRWgwQAOpE" class="pz-hint" id="provHint"><!--pnid:0GIEYzKFDLTXsLEO8M3uGm-->已选 12 / 12 个省份</span>
     </div>
-    <div class="tbl-note">想核对计价规则？点项目名下方的<b>「说明」</b>，即可按省展开该项目的计价说明原文。</div>
+    <div data-page-node-id="DMv8Wq0m5kBvw1yE0okmHJ" class="tbl-note"><!--pnid:Y2gByH3BPXxKHOtAtN2CUy-->想核对计价规则？点项目名下方的<b data-page-node-id="ljYPce92BPvwgb9QL2RsVH"><!--pnid:Q2MlAKcNuIhmlE3ibOxLrp-->「说明」</b><!--pnid:TGvvzAWGxVeYxqWo3nwmhC-->，即可按省展开该项目的计价说明原文。</div>
     <div data-page-node-id="9RmpTR3nFoJcehHacPw7aS" class="table-wrap" id="tableWrap">
       <div data-page-node-id="riU5bUfdNNkW4j68FR5erw" class="tbl-empty"><div data-page-node-id="jHKfZXxCKAHSAI88NUdEvW" class="big"><!--pnid:2FulHjLI0PHRvY95UZhjzH-->▦</div><!--pnid:VXTQKMnr9jOavJUlQN03IK-->勾选项目后，各省物价将在此处对比展示。</div>
     </div>
@@ -199,13 +198,6 @@ ROWS.forEach(r => bySeq[r.seq] = r);
 // 主项 → 其全部加收/扩展子项索引（勾选主项时连带勾选子项）
 const CHILDREN = {};
 ROWS.forEach(r => { if(r.seq !== r.parent){ (CHILDREN[r.parent] = CHILDREN[r.parent] || []).push(r.seq); } });
-// 动态填入项目总数（主项/子项）
-(function(){
-  const mains = ROWS.filter(r=>!r.seq.includes('-')).length;
-  const subs = ROWS.length - mains;
-  const el = document.getElementById('hdrDesc');
-  if(el) el.textContent = el.textContent.replace('覆盖 12 个省份', '全部 '+mains+' 个主项及 '+subs+' 条加收/扩展子项 · 覆盖 12 个省份');
-})();
 // 搜索别名（常见叫法 → 名称关键词）
 const ALIAS = [
   [/hpv|人乳头瘤|乳突/i, ['人乳头瘤','乳头瘤']],
